@@ -1,0 +1,6 @@
+template.recast.enable=Enable Recast
+template.recast.desc=Allow recasting tools on anvil
+template.recast.exp_cost=Experience Cost: %d
+
+mod.randomqualitycrafting.name=RandomQualityCrafting
+randomqualitycrafting.loginMessage=§e[%s]§r Welcome back! The expected durability relative to average is §a%s§r。

@@ -1,0 +1,6 @@
+template.recast.enable=启用重铸
+template.recast.desc=允许在铁砧上重铸工具
+template.recast.exp_cost=经验消耗：%d
+
+mod.randomqualitycrafting.name=随机品质合成
+randomqualitycrafting.loginMessage=§e[%s]§r 欢迎回来！当前随机耐久的期望相对于平均品质为 §a%s§r。

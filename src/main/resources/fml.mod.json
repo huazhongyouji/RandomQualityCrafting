@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "randomqualitycrafting",
+	"version": "${version}",
+	"depends": {
+		"fishmodloader": ">=3.4.2"
+	},
+	"environment": "*",
+	"name": "RandomQualityCrafting",
+	"description": "",
+	"authors": [
+      "hahahha",
+      "AI"
+    ],
+	"entrypoints": {
+		"main": ["com.github.hahahha.randomqualitycrafting.RandomQualityCrafting"]
+	},
+	"mixins": [
+      "randomqualitycrafting.mixins.json"
+	],
+	"accessWidener": "randomqualitycrafting.accesswidener"
+}
