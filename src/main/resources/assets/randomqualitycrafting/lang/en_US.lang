@@ -1,6 +1,4 @@
-template.recast.enable=Enable Recast
-template.recast.desc=Allow recasting tools on anvil
-template.recast.exp_cost=Experience Cost: %d
-
 mod.randomqualitycrafting.name=RandomQualityCrafting
-randomqualitycrafting.loginMessage=§e[%s]§r Welcome back! The expected durability relative to average is §a%s§r。
+randomqualitycrafting.loginMessage=§e[%s]§r Welcome back! The expected durability relative to average is §a%s§r.
+randomqualitycrafting.info.ite_compatibility_on=§e[Info]§r ITE compatibility mode is ON. Random quality is disabled to avoid conflicts.
+randomqualitycrafting.warn.ite_compatibility_off=§c[Warning]§r ITE compatibility mode is OFF. Random quality may cause issues when crafting continuously. Use at your own risk.

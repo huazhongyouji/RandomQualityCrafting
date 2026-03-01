@@ -1,5 +1,7 @@
 package com.github.hahahha.randomqualitycrafting.mixins;
 
+import com.github.hahahha.randomqualitycrafting.Compatibility;
+import com.github.hahahha.randomqualitycrafting.config.QualityCombinedConfig;
 import com.github.hahahha.randomqualitycrafting.util.QualityHelper;
 import net.minecraft.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +16,15 @@ public class MixinSlotRepair_Output {
 
     @Inject(method = "onPickupFromSlot", at = @At("HEAD"), cancellable = true)
     private void onPickupFromSlot(EntityPlayer player, ItemStack stack, CallbackInfo ci) {
+        if (QualityCombinedConfig.isITECompatibilityEnabled() && Compatibility.HAS_ITE) {
+            return;
+        }
         Slot slot = (Slot)(Object)this;
-        if (slot.slotNumber != 2) return; // 输出槽索引为2
+        if (slot.slotNumber != 2) return;
+
+        if (stack == null || stack.stackTagCompound == null || !stack.stackTagCompound.getBoolean("rqc_recast")) {
+            return;
+        }
 
         Container container = null;
         try {
@@ -51,23 +60,18 @@ public class MixinSlotRepair_Output {
         if (toolStack.getItemDamage() != 0) return;
         if (!QualityHelper.isMatchingIngot(toolItem, materialStack)) return;
 
-        // 消耗一个锭
         materialStack.stackSize--;
         if (materialStack.stackSize <= 0) {
             inputSlots.setInventorySlotContents(1, null);
         }
-
-        // 消耗原工具
         inputSlots.setInventorySlotContents(0, null);
 
-        // 将预览物品给玩家
-        if (!player.inventory.addItemStackToInventory(stack)) {
-            player.dropPlayerItem(stack);
+        stack.stackTagCompound.removeTag("rqc_recast");
+        if (stack.stackTagCompound.hasNoTags()) {
+            stack.setTagCompound(null);
         }
 
-        // 清空输出槽
         outputSlot.setInventorySlotContents(0, null);
-
         repairContainer.detectAndSendChanges();
         player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "random.anvil_use", 1.0f, 1.0f);
 
