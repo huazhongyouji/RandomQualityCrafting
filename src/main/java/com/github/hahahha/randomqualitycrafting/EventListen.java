@@ -6,20 +6,9 @@ import net.minecraft.EntityPlayer;
 import net.minecraft.EnumQuality;
 import net.minecraft.StatCollector;
 import net.xiaoyu233.fml.reload.event.*;
-import net.xiaoyu233.fml.reload.utils.IdUtil;
 
 public class EventListen {
-    //物品注册
-    @Subscribe
-    public void onItemRegister(ItemRegistryEvent event) {
-    }
 
-    //合成方式注册
-    @Subscribe
-    public void onRecipeRegister(RecipeRegistryEvent event) {
-    }
-
-    //玩家登录事件
     @Subscribe
     public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
         EntityPlayer player = event.getPlayer();
@@ -32,8 +21,8 @@ public class EventListen {
             float durabilityMod = QualityCombinedConfig.getDurabilityModifier(quality);
             expected += probs[i] * durabilityMod;
         }
-        double diff = expected - 1.0; // 相对于平均品质的差值
-        String diffPercent = String.format("%+.2f%%", diff * 100); // 例如 "+25.00%"
+        double diff = expected - 1.0;
+        String diffPercent = String.format("%+.2f%%", diff * 100);
 
         String modName = StatCollector.translateToLocal("mod.randomqualitycrafting.name");
         String message = StatCollector.translateToLocalFormatted(
@@ -42,39 +31,25 @@ public class EventListen {
                 diffPercent
         );
         player.addChatMessage(message);
+
+        boolean iteCompatibility = QualityCombinedConfig.isITECompatibilityEnabled();
+        if (Compatibility.HAS_ITE) {
+            if (iteCompatibility) {
+                String info = StatCollector.translateToLocal("randomqualitycrafting.info.ite_compatibility_on");
+                player.addChatMessage(info);
+            } else {
+                String warn = StatCollector.translateToLocal("randomqualitycrafting.warn.ite_compatibility_off");
+                player.addChatMessage(warn);
+            }
+        }
     }
 
-    //指令事件
-    @Subscribe
-    public void handleChatCommand(HandleChatCommandEvent event) {
-    }
-
-    //实体注册
-    @Subscribe
-    public void onEntityRegister(EntityRegisterEvent event) {
-    }
-
-    //实体渲染注册
-    @Subscribe
-    public void onEntityRendererRegistry(EntityRendererRegistryEvent event) {
-    }
-
-    //方块实体注册
-    @Subscribe
-    public void onTileEntityRegister(TileEntityRegisterEvent event) {
-    }
-
-    //方块实体渲染注册
-    @Subscribe
-    public void onTileEntityRendererRegister(TileEntityRendererRegisterEvent event) {
-    }
-
-    //声音注册
-    @Subscribe
-    public void onSoundsRegister(SoundsRegisterEvent event) {
-    }
-
-    public static int getNextEntityID() {
-        return IdUtil.getNextEntityID();
-    }
+    @Subscribe public void onItemRegister(ItemRegistryEvent event) {}
+    @Subscribe public void onRecipeRegister(RecipeRegistryEvent event) {}
+    @Subscribe public void handleChatCommand(HandleChatCommandEvent event) {}
+    @Subscribe public void onEntityRegister(EntityRegisterEvent event) {}
+    @Subscribe public void onEntityRendererRegistry(EntityRendererRegistryEvent event) {}
+    @Subscribe public void onTileEntityRegister(TileEntityRegisterEvent event) {}
+    @Subscribe public void onTileEntityRendererRegister(TileEntityRendererRegisterEvent event) {}
+    @Subscribe public void onSoundsRegister(SoundsRegisterEvent event) {}
 }

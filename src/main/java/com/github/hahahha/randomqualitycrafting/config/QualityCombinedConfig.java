@@ -11,14 +11,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class QualityCombinedConfig {
-    private static final String CONFIG_FILE = "config/randomqualitycrafting_config.json";
+    private static final String CONFIG_FILE = "config/RandomQualityCrafting_config.json";
     private static QualityConfigData data = null;
 
-    // ========== 内部数据类（与 JSON 结构完全对应） ==========
     private static class QualityConfigData {
         LinkedHashMap<String, Double> probabilities = new LinkedHashMap<>();
         LinkedHashMap<String, QualityAttribute> attributes = new LinkedHashMap<>();
-        boolean enableRecast = true;  // 重铸功能开关，默认开启
+        boolean enableRecast = true;
+        boolean enableITECompatibility = true;
     }
 
     public static class QualityAttribute {
@@ -27,10 +27,14 @@ public class QualityCombinedConfig {
         public QualityAttribute(float durability) { this.durability = durability; }
     }
 
-    // ========== 公共访问方法 ==========
     public static boolean isRecastEnabled() {
         if (data == null) load();
         return data.enableRecast;
+    }
+
+    public static boolean isITECompatibilityEnabled() {
+        if (data == null) load();
+        return data.enableITECompatibility;
     }
 
     public static double[] getProbabilities() {
@@ -49,7 +53,6 @@ public class QualityCombinedConfig {
         return attr != null ? attr.durability : getDefaultDurability(quality);
     }
 
-    // ========== 加载/保存配置 ==========
     public static void preload() {
         if (data == null) load();
     }
@@ -69,22 +72,19 @@ public class QualityCombinedConfig {
             data = getDefaultData();
         }
 
-        // 确保所有品质都有概率值
         Map<String, Double> defaultProb = getDefaultProbabilities();
         for (String key : defaultProb.keySet()) {
             data.probabilities.putIfAbsent(key, defaultProb.get(key));
         }
 
-        // 概率归一化（确保总和为1）
         double sum = data.probabilities.values().stream().mapToDouble(Double::doubleValue).sum();
         if (Math.abs(sum - 1.0) > 0.0001) {
             for (String key : data.probabilities.keySet()) {
                 data.probabilities.put(key, data.probabilities.get(key) / sum);
             }
-            saveConfig(configFile); // 保存归一化后的值
+            saveConfig(configFile);
         }
 
-        // 确保所有品质都有属性
         Map<String, QualityAttribute> defaultAttr = getDefaultAttributes();
         for (String key : defaultAttr.keySet()) {
             data.attributes.putIfAbsent(key, defaultAttr.get(key));
@@ -109,6 +109,7 @@ public class QualityCombinedConfig {
         defaultData.probabilities = getDefaultProbabilities();
         defaultData.attributes = getDefaultAttributes();
         defaultData.enableRecast = true;
+        defaultData.enableITECompatibility = true;
         return defaultData;
     }
 

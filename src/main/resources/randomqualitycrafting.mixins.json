@@ -1,19 +1,19 @@
 {
-	"required": true,
-	"package": "com.github.hahahha.randomqualitycrafting.mixins",
-	"compatibilityLevel": "JAVA_17",
-	"target": "DEFAULT",
-	"minVersion": "0.8.3",
-	"mixins": [
-      "MixinSlotCrafting_DisableFeatures",
-      "MixinSlotCrafting_SimpleRandom",
-      "MixinItem_QualityAttributes",
-      "MixinItemStack_TooltipDurability",
-      "MixinContainerRepair_Recast",
-      "MixinSlotRepairOrEnchantConsumable",
-      "MixinSlotRepair_Output"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "com.github.hahahha.randomqualitycrafting.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "target": "DEFAULT",
+  "minVersion": "0.8.3",
+  "mixins": [
+    "MixinSlotCrafting_DisableFeatures",
+    "MixinSlotCrafting_SimpleRandom",
+    "MixinItem_QualityAttributes",
+    "MixinItemStack_TooltipDurability",
+    "MixinContainerRepair_Recast",
+    "MixinSlotRepairOrEnchantConsumable",
+    "MixinSlotRepair_Output"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
